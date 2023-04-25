@@ -393,6 +393,7 @@ padding: 45px;
 <body>
   <article class="markdown-body">
 <h1 id="%E7%AC%AC%E4%BA%8C%E5%9B%9E">第二回</h1>
+<p>(数式を一部利用しているのでレンダリングがもしできなかったらこちらから見てください。)</p>
 <h2 id="q%E3%82%A8%E3%83%A9%E3%83%BC%E5%87%A6%E7%90%86%E3%81%AF%E3%81%A9%E3%81%86%E3%81%99%E3%82%8B">Q:エラー処理はどうする？</h2>
 <p>エラー処理の話はのちにやります。出力がstringなる関数なら、エラーメッセージを返す処理などの実装は出来ます(やってる方もいたようです)。</p>
 <h2 id="%E3%82%AC%E3%83%BC%E3%83%89%E8%A8%98%E6%B3%95%E3%81%A8%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%83%9E%E3%83%83%E3%83%81%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">ガード記法とパターンマッチについて</h2>
@@ -406,20 +407,76 @@ padding: 45px;
 <span class="hljs-title">func</span> <span class="hljs-number">2</span> = <span class="hljs-comment">--何らかの処理</span>
 </div></code></pre>
 <h2 id="p56p57">P56~P57</h2>
-<p>聞き間違いなら申し訳ないが、Haskellの少数型はfloatしかないと言っていた。<a href="%E3%81%82%E3%81%82%E3%81%82%E3%81%82">^1</a></p>
-<p>使用時の丸めで誤差が出るので注意。オーバーフローにも注意。IEEEの規格で浮動小数点の規格は決まっています。</p>
+<p>聞き間違いなら申し訳ないが、Haskellの少数型はfloatしかないと言っていた。<a href="#section1">検証結果</a></p>
+<p>使用時の丸めで誤差が出るので注意。オーバーフローにも注意。IEEEの規格で浮動小数点の規格は決まっている。</p>
 <h2 id="p58">P58</h2>
-<p>見慣れた関数(sin関数等)が並ぶ。piは厳密には変数ではないのだが、変数かのように扱える。</p>
+<p>Prelude モジュールで定義された、Float関連の見慣れたcalculatorが並ぶ。</p>
 <p>課題は3.20(P59)</p>
 <h2 id="p60">P60</h2>
-<p>HaskellはPythonと似てて、ブロック(構文)をインデントで判断する。この仕組みには、オフサイドという名前がついている。決まった線より出てしまう(インデント)と次のブロック(構文)になるという意味からこの名前になった。</p>
+<p>HaskellはPythonと似てて、ブロック(構文)をインデントで判断する。この仕組みには、オフサイドという名前がついている。決まった線(インデント)より出てしまうと次のブロック(構文)になるという意味からこの名前になっている。</p>
 <h2 id="p62">P62</h2>
-<p>コンストラクタと型は最初が大文字。変数は小文字(命名規則)。ただし小文字には予約語があるので注意。(P63)</p>
-<p>再定義したい場合はP53</p>
-<p>haskellはuniコードベース。漢字も使える。</p>
+<p>Intなどの型名やTrue/Falseなどのコンストラクタは最初が大文字。変数は最初は小文字(命名規則なので大文字にするとエラーが出る。)。ただし命名規則を守っても、予約語があるので注意。(P63)</p>
+<p>再定義したい場合は、前回の講義で説明したようにすればいい。(P53)</p>
+<p>Haskellは、Unicode文字の説明規格に基づいて構築されており、ASCII規格以外のフォントからの記号を許可している。</p>
 <h2 id="p63">P63</h2>
-<p>演算子は記号で作る。()をつければ計算順序を決めれる。しかし、()で計算順序をいちいち指定していては可視性が下がる。</p>
-<p>4-2-1は左結合(同じ優先順序なら左からやる)</p>
+<p>演算子は記号(<code>!#$%&amp;*+./&lt;=&gt;?@\^|-~</code>
+)で作る。()をつければ計算順序を決めれる。しかし、()で計算順序をいちいち指定していては可視性が下がる。</p>
+<pre class="hljs"><code><div>(((<span class="hljs-number">4</span>+<span class="hljs-number">8</span>) *<span class="hljs-number">3</span>) +<span class="hljs-number">2</span>)
+</div></code></pre>
+<p>4-2-1は左結合と定義されている。(同じ優先順序なら左からやる)</p>
+<pre class="hljs"><code><div>(<span class="hljs-number">4</span><span class="hljs-number">-2</span>)<span class="hljs-number">-1</span>=<span class="hljs-number">2</span><span class="hljs-number">-1</span>=<span class="hljs-number">1</span> <span class="hljs-comment">--左結合</span>
+</div></code></pre>
+<p>優先度(結合力、番号で管理されている)や結合の向きの詳細はP551。</p>
+<table>
+<thead>
+<tr>
+<th>優先度</th>
+<th>演算子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9</td>
+<td><code>!!</code>, <code>.</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>^</code>, <code>^^</code>, <code>**</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>*</code>, <code>/</code>, <code>div</code>, <code>mod</code>, <code>rem</code>, <code>quot</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>+</code>, <code>-</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>:</code>, <code>++</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>==</code>, <code>/=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>elem</code>, <code>notElem</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>&amp;&amp;</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>||</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>&gt;&gt;</code>, <code>&gt;&gt;=</code></td>
+</tr>
+<tr>
+<td>0</td>
+<td><code>$</code>, <code>$!</code>, <code>seq</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="p64">P64</h2>
 <pre class="hljs"><code><div><span class="hljs-number">2</span>^<span class="hljs-number">3</span>^<span class="hljs-number">2</span>
 </div></code></pre>
@@ -427,124 +484,202 @@ padding: 45px;
 $$
 2^{3^2}=2^{(3^2)}
 $$
-数学もこう。</p>
-<p>haskellでは優先度は番号で管理する(P５５１</p>
-<p>まずは関数が実行されてから演算子が実行される。</p>
+数学と同じ。</p>
+<p>まずは関数が実行されてから演算子が実行される。なので</p>
+<pre class="hljs"><code><div>f n + 1
+</div></code></pre>
+<p>は</p>
+<pre class="hljs"><code><div>(f n) + 1
+</div></code></pre>
+<p>と実行されてしまうので関数は疑わしければかっこをつける。</p>
 <h2 id="p65">P65</h2>
-<p>演算子は(+)などとすると関数となる。逆に関数を'func'とすると演算子になる。</p>
+<p>演算子は(+)などとすると関数となる。</p>
+<pre class="hljs"><code><div><span class="hljs-title">x</span> = y + z
+<span class="hljs-title">x</span> = (+) y z
+</div></code></pre>
+<p>逆に関数を'func'とすると演算子になる。</p>
+<pre class="hljs"><code><div><span class="hljs-title">x</span> = func y  z
+<span class="hljs-title">x</span> = y  'func' z
+</div></code></pre>
 <p>Do-it-youself operators。これは新しい演算子を作る機能。演算子に使える記号が決まってる。結構色んな記号が使える(ユニコードのやつ？)。教科書では<code>&amp;&amp;&amp;</code>なる演算子を作っている。さらに優先度や結合の向きを定義できる。</p>
+<pre class="hljs"><code><div>(&amp;&amp;&amp;) :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
+<span class="hljs-title">x</span> &amp;&amp;&amp; y
+    | x &gt; y     = y
+    | otherwise = x
+
+<span class="hljs-title">a</span> = <span class="hljs-number">3</span> &amp;&amp;&amp; <span class="hljs-number">2</span> <span class="hljs-comment">-- a=2になる</span>
+</div></code></pre>
 <h2 id="4%E7%AB%A0">4章~~</h2>
-<p>プログラミングの書き方が一つのテーマ。haskellは関数が中心。
-4.1はどこからスタートすればいいのかのはなし。コードを書く前に設計しようという話</p>
-<p>例えば、3つのなかで、真ん中の数字を返せという課題があった場合。2 2 4の場合はどうする？真ん中はない？それとも2を返す？不明確な問題設定は結構ある。これは社会に出ても同様(要件定義があいまい)。これを具体的に、不明な点がないのかを確認することが大事。何かを作るときはそーゆうのを決めておくのも大事。よく話あってクライアントとホストで例を出し合うのも大事。Haskellは型が特定できるのでやりやすい。</p>
-<h2 id="p70">P70</h2>
-<p>下から上向きのアプローチ、上から下向きのアプローチ。トップダウンとボトムアップ。</p>
-<p>ゴールとスタートの間にどんな案数があれば目的を達成できるか考える。</p>
-<h2 id="p71">P71</h2>
-<p>betwweenは真ん中の数を割り出すプログラム。</p>
+<p>プログラミングの書き方が一つのテーマ。haskellは関数が中心。例えば、3つの数字のなかで、真ん中の数字を返せという課題があった場合。2 2 4の場合はどうする？真ん中はない？それとも2を返す？不明確な問題設定は結構ある。これは社会に出ても同様(要件定義があいまい)。クライアントとホストで例を出し合うのも大事ってよく話すのが大事。特に、Haskellは型が特定できるのでやりやすい。</p>
+<h2 id="p70p71">P70~P71</h2>
+<p>ゴールとスタートの間にどんな関数があれば目的を達成できるか考える。</p>
+<p>例えば、整数 x、y、z の中央値を求めるタスクを与えられたとする。その場合、どんな関数があれば目的を達成できるだろうか。その解の一つとして、betwweenなる関数を作ることを考える。は真ん中の数を割り出すプログラム。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- between関数を定義</span>
+<span class="hljs-title">between</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Bool</span>
+<span class="hljs-title">between</span> m n p = n &gt;= m &amp;&amp; n &lt;= p
+
+<span class="hljs-comment">-- middleNumber関数を定義</span>
+<span class="hljs-title">middleNumber</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
+<span class="hljs-title">middleNumber</span> x y z
+  | between y x z = x
+  | between x y z = y
+  | otherwise = z
+</div></code></pre>
 <p>課題4.1(図は省いていい。利点と欠点は書いてください。)</p>
-<h2 id="p72">P72</h2>
-<p>白黒反転や向き反転をしたい。</p>
-<h1 id="p73">P73</h1>
-<pre class="hljs"><code><div>fourPics pic =
+<h2 id="p72p73">P72~P73</h2>
+<p>馬の画像を受け取り、画像を4つ横に並べた画像を返す関数を作りたいとする。左上が元画像、右上が白黒反転かつ左右逆転画像、左下が白黒反転画像、右下が左右反転画像である。この時、一つの方法は左上と左下がつながった画像(<code>変数名:left</code>)と右上と右下がつながった画像(<code>変数名:right</code>)を既製品として一旦、以下のように定義することである。</p>
+<pre class="hljs"><code><div><span class="hljs-title">fourPics</span> pic =
     left 'beside' right
-        where
+        <span class="hljs-keyword">where</span>
             left = ,,,
             right = ,,,
 </div></code></pre>
-<p>left = ,,,
-right = ,,,
-は関数の中のみの定義になる。</p>
-<p>定義が仕様の後になっちゃう。でもこれがよみやすい。left biside lightとか。(whereとかの話)</p>
+<p>whereはローカル定義で<code>left,right</code>を定義している。これらはfourPics関数の定義でしか使用できないのでローカルと呼ぶ。</p>
+<p>思考の順番としては4枚の画像を並べるには、逆算して、</p>
+<ol>
+<li>左と右の画像2枚を横にくっつける。(<code>left 'beside' right</code>)</li>
+<li>左の画像(左上が元画像,左下が白黒反転画像)を定義する。( <code>pic 'above' invertColour pic</code>)</li>
+<li>右の画像(、右上が白黒反転かつ左右逆転画像,右下が左右反転画像)を定義する。(<code> invertColour (flipV pic) 'above' flipV pic</code>)
+よって以下のようになる。</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-title">fourPics</span> pic =
+    left 'beside' right
+        <span class="hljs-keyword">where</span>
+            left = pic 'above' invertColour pic
+            right = invertColour (flipV pic) 'above' flipV pic
+</div></code></pre>
+<p>この方法は、定義が仕様の後になっちゃう。でもこれが読みやすい。</p>
 <h2 id="p76p77">P76~P77</h2>
-<p>スコープ。whereは局所的なスコープを与える。</p>
+<p>スコープの話。トップレベルの定義ではスクリプト内部全体で使用できる。&quot;全体&quot;なので、例えそれがスクリプト的には定義前でも利用できる。以下の例を示す。</p>
+<pre class="hljs"><code><div><span class="hljs-title">isOdd</span>, isEven :: <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Bool</span>
+<span class="hljs-title">isOdd</span> n
+    | n &lt;= <span class="hljs-number">0</span>    = <span class="hljs-type">False</span>
+    | otherwise = isEven (n<span class="hljs-number">-1</span>)
+<span class="hljs-title">isEven</span> n
+    | n &lt; <span class="hljs-number">0</span>     = <span class="hljs-type">False</span>
+    | n == <span class="hljs-number">0</span>    = <span class="hljs-type">True</span>
+    | otherwise = isOdd (n<span class="hljs-number">-1</span>)
+</div></code></pre>
+<p>この例では<code>isOdd n</code>の<code>otherwise = isEven (n-1)</code>を見ると<code>isEven</code>が定義前にもかかわらず、使用している。このようにトップレベルの定義ではスクリプト内部全体で使用できる。</p>
+<p>それに対し、where節で与えられるローカル定義は、スクリプト全体ではなく、単にそれらが現れる条件式内でのみ使用することが意図されている。関数定義で使用される変数のスコープも同様。以下に例を示す。</p>
+<pre class="hljs"><code><div><span class="hljs-title">maxsq</span> x y
+    | sqx &gt; sqy  = sqx
+    | otherwise  = sqy
+        <span class="hljs-keyword">where</span> 
+        sqx = sq x 
+        sqy = sq y 
+        sq :: <span class="hljs-type">Int</span> -&gt; <span class="hljs-type">Int</span> 
+        sq z = z*z
+
+</div></code></pre>
 <p>課題4.9</p>
 <h2 id="p78">P78</h2>
-<p>列挙型(enum?)。例としてジャンケン。例えば、グーチョキパーの3通りの値をもつ型を定義できる。</p>
+<p>列挙型の説明。例えば、Rock,Scissors,Paperの3通りの値をもつ型を定義できる。</p>
+<p>つまり集合
+$$
+Move = \lbrace Rock,Scissors,Paper\rbrace
+$$
+を考えることに相当する。</p>
 <h2 id="p79">P79</h2>
 <p>具体的な方の定義方法は</p>
-<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">Move</span> = <span class="hljs-type">Rock</span> | paper | <span class="hljs-type">Scissors</span></span>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">data</span> <span class="hljs-type">Move</span> = <span class="hljs-type">Rock</span> | <span class="hljs-type">Paper</span> | <span class="hljs-type">Scissors</span></span>
 </div></code></pre>
-<p>これで、グーチョキパーの3通りの値をもつ型(Move型)を定義できる。
-これを使って、グーならチョキに勝つなども定義できる。</p>
+<p>これで、Rock,Scissors,Paperの3通りの値をもつ型(Move型)を定義できる。
+これを使って、RockならScissorsに勝つなども定義できる。</p>
 <pre class="hljs"><code><div><span class="hljs-title">beat</span> :: <span class="hljs-type">Move</span>-&gt;<span class="hljs-type">Move</span> <span class="hljs-comment">--beatの引数に勝つ関数。</span>
     beat <span class="hljs-type">Rock</span> = <span class="hljs-type">Paper</span>
     beat <span class="hljs-type">P</span>
 </div></code></pre>
+<p>これは
+$$
+beat:Move→Move \quad beat(x)=xに勝てる手
+$$
+を定義したことになる。</p>
 <p>さらに</p>
 <pre class="hljs"><code><div>deriving (Show, Eq,Ord)
 </div></code></pre>
-<p>など、データ型に属性？を付与でkる。ただし、ジャンケンとしてはOrd(順序関係)は定義しないほうがいい。</p>
-<p>課題4.11と4.12？</p>
-<h2 id="p81p83">P81~P83</h2>
-<p>再帰は大事。例えば階乗。漸化式を作るイメージ。例えば階乗なる演算子を関数で書くと
-$$
-!:R→R \quad !(n)=(n-1)!(n)
-$$
-かつ
-$$
-!(0)=1
-$$
-これをhaskellで書くと</p>
-<pre class="hljs"><code><div><span class="hljs-title">fac</span> n = fac (n<span class="hljs-number">-1</span>)*n
-<span class="hljs-title">fac</span> <span class="hljs-number">0</span> = <span class="hljs-number">1</span>
+<p>のように、derivingで型クラスを付与することができる。型クラスには以下脳ようなものがある。</p>
+<pre class="hljs"><code><div><span class="hljs-type">Show</span>		<span class="hljs-comment">-- print で出力可能な文字列に変換される</span>
+<span class="hljs-type">Read</span>		<span class="hljs-comment">-- 文字列から変換可能となる</span>
+<span class="hljs-type">Eq</span>		<span class="hljs-comment">-- == や /= で比較可能となる</span>
+<span class="hljs-type">Ord</span>		<span class="hljs-comment">-- &lt; や &gt; 等で大小比較可能となる</span>
+<span class="hljs-type">Enum</span>		<span class="hljs-comment">-- fromEnum や toEnum で数値と相互変換可能となる</span>
 </div></code></pre>
-<p>↑ガード記法でもかける。(P82)なお、上のやつは-1とかを入れると永遠に続いてしまう。</p>
-<p>数学なら、例えば!(-1)は定義されていないという立場をとれるがプログラミングの場合はそうもいかない。そこでotherwiseを使う。</p>
+<p>課題4.11と4.12</p>
+<h2 id="p81p83">P81~P83</h2>
+<p>再帰は大事。例えば階乗なる演算子!を関数で書くと、!は一変数関数なので
+$$
+!:N→N \quad !(n)=!(n-1)×n,\quad!(0)=0
+$$</p>
+<p>これをhaskellで書くと</p>
+<pre class="hljs"><code><div><span class="hljs-title">fac</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> 
+<span class="hljs-title">fac</span> n = fac (n<span class="hljs-number">-1</span>)*n <span class="hljs-comment">-- !(n)=!(n-1)×n</span>
+<span class="hljs-title">fac</span> <span class="hljs-number">0</span> = <span class="hljs-number">1</span> <span class="hljs-comment">-- !(0)=0</span>
+</div></code></pre>
+<p>↑ガード記法でもかける(P82)。</p>
+<p>例えばここで、数学なら、!(-1)は <strong>定義されていないという立場($-1 \notin N$)</strong> をとれるがプログラミングの場合は(<code>Integer -&gt; Integer</code>なので)そうもいかない。そこでotherwiseを使う。</p>
 <p>課題P84(4.17と4.18)</p>
 <h2 id="p84p85">P84~P85</h2>
-<p>P85の上にpower関数がある。$2^n$乗を求める再帰関数。</p>
+<p>P85の上にpower関数がある。$2^n$乗を求める再帰関数。
+$$
+2^n=2 × 2^{n-1}
+$$
+より</p>
+<pre class="hljs"><code><div><span class="hljs-title">power2</span> n
+    | n == <span class="hljs-number">0</span>    = <span class="hljs-number">1</span>
+    | n &gt; <span class="hljs-number">0</span>     = <span class="hljs-number">2</span> * power2(n<span class="hljs-number">-1</span>) <span class="hljs-comment">--2^n=2 × 2^{n-1}</span>
+</div></code></pre>
+<p>次に以下のような関数の定義を考える。</p>
 <pre class="hljs"><code><div><span class="hljs-title">sumFacs</span> n = fac <span class="hljs-number">0</span> + fac <span class="hljs-number">1</span> + … + fac (n<span class="hljs-number">-1</span>) + fac n
 </div></code></pre>
-<p>これは数学で書くと
+<p>$a_n = sumFacs(n)$と置けば、$fac$は階乗のことなので$a_0=0!=1$に注意して
 $$
-\sum_{k=1}^n k
-$$
-よって</p>
+a_n = a_{n-1} + fac(n),\quad a_0=1
+$$</p>
+<p>よって</p>
 <pre class="hljs"><code><div><span class="hljs-title">sumFacs</span> n
     | n == <span class="hljs-number">0</span> = <span class="hljs-number">1</span>
-    | n &gt; <span class="hljs-number">0</span> = sumFacs (n<span class="hljs-number">-1</span>) + n
-</div></code></pre>
-<p>同様に
-$$
-\sum_{k=1}^n f(k)
-$$</p>
-<pre class="hljs"><code><div><span class="hljs-title">sumFun</span> f n
-    | n == <span class="hljs-number">0</span> = f <span class="hljs-number">0</span>
-    | n &gt; <span class="hljs-number">0</span> = sumFacs (n<span class="hljs-number">-1</span>) + f(n)
+    | n &gt; <span class="hljs-number">0</span> = sumFacs (n<span class="hljs-number">-1</span>) + fac n 
 </div></code></pre>
 <p>課題 4.19,4.21</p>
 <h2 id="46%E7%AB%A0%E3%81%AF%E3%81%A8%E3%81%B0%E3%81%99">4.6章はとばす</h2>
 <h2 id="47p89">4.7(P89)</h2>
-<p>より一般的な再帰。漸化式としては
+<p>より一般的な再帰。例えばフィボナッチ数列は
 $$
-a_n = a_{n-1} + a_{n-2}
+a_n = a_{n-1} + a_{n-2},\quad a_1=1,\quad a_0=0
 $$
-みたいな感じで、2つの物を使う。fib数列が例として出ている。</p>
+みたいな感じで、複数個を使う。</p>
+<pre class="hljs"><code><div><span class="hljs-title">fib</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
+<span class="hljs-title">fib</span> n
+    | n == <span class="hljs-number">0</span>    = <span class="hljs-number">0</span>
+    | n == <span class="hljs-number">1</span>    = <span class="hljs-number">1</span>
+    | n &gt; <span class="hljs-number">1</span>     = fib (n<span class="hljs-number">-2</span>) + fib (n<span class="hljs-number">-1</span>)
+</div></code></pre>
 <h2 id="p90">P90</h2>
-<p>なんかの定義例がある。</p>
+<p>割り算の例だが授業ではほとんど流していたと思うので割愛。</p>
 <h2 id="p97">P97</h2>
-<p>タプル()とリスト[]</p>
+<p>データ型には、多言語同様にタプル()とリスト[]も存在する。</p>
 <ul>
-<li>タプルは違う型を数の制限を設けて定義。</li>
-<li>リストは同じ型を数の制限無しで定義。</li>
+<li>タプルは違う型(勿論同じでもいい)を数の制限を設けて定義 <code>例:(String,Int)</code>。</li>
+<li>リストは同じ型を数の制限無しで定義 <code>例:[Int]</code>。</li>
 </ul>
 <pre class="hljs"><code><div>(<span class="hljs-string">"Salt: 1kg"</span>,<span class="hljs-number">139</span>)
 </div></code></pre>
-<p>などといった感じで違うデータ型を一つのタプル内に混在できる。型でいうと</p>
+<p>などといった感じで違うデータ型を一つのタプル内に混在できる。上記のタプルのデータ型は</p>
 <pre class="hljs"><code><div>(<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>)
 </div></code></pre>
-<p>さらにエイリアス(別名)も定義できる。</p>
+<p>となる。さらに以下のようにエイリアス(別名)も定義できる。</p>
 <pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">ShopItem</span> = (<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>)</span>
 </div></code></pre>
-<p>ジャンケンの例でみたように<code>data</code>は新しい型を定義する。</p>
-<p>リストの場合は同一型縛りがるため、型宣言は要素がなんこあろと</p>
+<p>リストの場合は同一型縛りがるため、型宣言は要素が何個あろうと</p>
 <pre class="hljs"><code><div>[(<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>)]
 [<span class="hljs-type">ShopItem</span>]
 </div></code></pre>
-<p>などとできる。</p>
-<h2 id="p99">P99</h2>
-<p>タプルもリストも形式があっているかチェックされる。</p>
+<p>などで済む。例えば</p>
+<pre class="hljs"><code><div><span class="hljs-title">a</span> = [<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">10</span>,<span class="hljs-number">25</span>]
+<span class="hljs-title">b</span> = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]
+</div></code></pre>
+<p>も同じ、<code>[Int]</code>型。</p>
 <h2 id="p100">P100</h2>
 <p>より一般なタプルの形式は以下のようになる。
 $$
@@ -553,16 +688,36 @@ $$
 $$
 (v_1,v_2,\cdots,v_n)
 $$
-ただしtはデータ型、vは値。タプルを使うことで関数が複数の値を返せるようになる。</p>
+ただしtはデータ型、vは値。タプルを使うことで関数が複数の値を返せるようになる。例えば、</p>
+<pre class="hljs"><code><div><span class="hljs-title">minAndMax</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; (<span class="hljs-type">Integer</span> , <span class="hljs-type">Integer</span>)
+<span class="hljs-title">minAndMax</span> x y
+    | x&gt;=y      = (y,x)
+    | otherwise = (x,y)
+</div></code></pre>
+<p>などといった形になる。</p>
 <h2 id="p101">P101</h2>
 <p>タプルのパターンマッチング</p>
 <pre class="hljs"><code><div><span class="hljs-title">addPair</span> :: (<span class="hljs-type">Ineger</span>,<span class="hljs-type">Integer</span>) -&gt; <span class="hljs-type">Integer</span>
 <span class="hljs-title">addPair</span> (x,y) = x + y
 </div></code></pre>
 <p>といった形で関数側から使える。
-課題P103(5.1)
-やりたいんだったら5.2もやっていいんですよ。</p>
+課題P103(5.1)、やりたいんだったら5.2もやっていいんですよ。</p>
+<h2 id="%E3%81%9D%E3%81%AE%E4%BB%96">その他</h2>
+<div id="section1">
+<p>&quot;Haskellの少数型はfloatしかない&quot;についての、聞き間違えか心配だったので検証結果。</p>
+<pre class="hljs"><code><div><span class="hljs-title">ghci</span>&gt; a = <span class="hljs-number">0.31426</span>
+<span class="hljs-title">ghci</span>&gt; :t a
+<span class="hljs-title">a</span> :: <span class="hljs-type">Fractional</span> a =&gt; a
 
+<span class="hljs-title">ghci</span>&gt; c = <span class="hljs-number">0.31426</span> :: <span class="hljs-type">Float</span>
+<span class="hljs-title">ghci</span>&gt; d = <span class="hljs-number">0.31426</span> :: <span class="hljs-type">Double</span>
+<span class="hljs-title">ghci</span>&gt; :t c
+<span class="hljs-title">c</span> :: <span class="hljs-type">Float</span>
+<span class="hljs-title">ghci</span>&gt; :t d
+<span class="hljs-title">d</span> :: <span class="hljs-type">Double</span>
+</div></code></pre>
+<p>結果としては、小数をオーバーライドした型(<code>Fractional</code>)がデフォルトではつくようです。よって<code>Float</code>や<code>Double</code>に変換可能。自分の聞き間違え？</p>
+</div>
 </article>
 </body>
 <script>
