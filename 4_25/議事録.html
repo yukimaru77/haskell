@@ -393,7 +393,18 @@ padding: 45px;
 <body>
   <article class="markdown-body">
 <h1 id="%E7%AC%AC%E4%BA%8C%E5%9B%9E">第二回</h1>
-<p>(数式を一部利用しているのでレンダリングがもしできなかったらこちらから見てください。)</p>
+<p>(数式を一部利用しているのでレンダリングがもしできなかったら<a href="https://yukimaru77.github.io/haskell/4_25/%E8%AD%B0%E4%BA%8B%E9%8C%B2.html">こちら</a>から見てください。)</p>
+<h2 id="%E8%AA%B2%E9%A1%8C%E4%B8%80%E8%A6%A7">課題一覧</h2>
+<ul>
+<li>3.20(P59)</li>
+<li>4.1(P71)</li>
+<li>4.9(P78)</li>
+<li>4.11、4.12(P80)</li>
+<li>4.17、4.18(P84)</li>
+<li>4.19、4.21(P86)</li>
+<li>5.1(P103)</li>
+<li>5.2(任意課題)</li>
+</ul>
 <h2 id="q%E3%82%A8%E3%83%A9%E3%83%BC%E5%87%A6%E7%90%86%E3%81%AF%E3%81%A9%E3%81%86%E3%81%99%E3%82%8B">Q:エラー処理はどうする？</h2>
 <p>エラー処理の話はのちにやります。出力がstringなる関数なら、エラーメッセージを返す処理などの実装は出来ます(やってる方もいたようです)。</p>
 <h2 id="%E3%82%AC%E3%83%BC%E3%83%89%E8%A8%98%E6%B3%95%E3%81%A8%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%83%9E%E3%83%83%E3%83%81%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">ガード記法とパターンマッチについて</h2>
@@ -419,12 +430,11 @@ padding: 45px;
 <p>再定義したい場合は、前回の講義で説明したようにすればいい。(P53)</p>
 <p>Haskellは、Unicode文字の説明規格に基づいて構築されており、ASCII規格以外のフォントからの記号を許可している。</p>
 <h2 id="p63">P63</h2>
-<p>演算子は記号(<code>!#$%&amp;*+./&lt;=&gt;?@\^|-~</code>
-)で作る。()をつければ計算順序を決めれる。しかし、()で計算順序をいちいち指定していては可視性が下がる。</p>
+<p>演算子の優先度の話。()をつければ、自由に計算順序を決めれるが、()で計算順序をいちいち指定していては以下のように可視性が下がる。</p>
 <pre class="hljs"><code><div>(((<span class="hljs-number">4</span>+<span class="hljs-number">8</span>) *<span class="hljs-number">3</span>) +<span class="hljs-number">2</span>)
 </div></code></pre>
-<p>4-2-1は左結合と定義されている。(同じ優先順序なら左からやる)</p>
-<pre class="hljs"><code><div>(<span class="hljs-number">4</span><span class="hljs-number">-2</span>)<span class="hljs-number">-1</span>=<span class="hljs-number">2</span><span class="hljs-number">-1</span>=<span class="hljs-number">1</span> <span class="hljs-comment">--左結合</span>
+<p>4-2-1の例からわかるように<code>-</code>は左結合と定義されている。</p>
+<pre class="hljs"><code><div><span class="hljs-number">4</span><span class="hljs-number">-2</span><span class="hljs-number">-1</span>=(<span class="hljs-number">4</span><span class="hljs-number">-2</span>)<span class="hljs-number">-1</span>=<span class="hljs-number">2</span><span class="hljs-number">-1</span>=<span class="hljs-number">1</span> <span class="hljs-comment">--左結合</span>
 </div></code></pre>
 <p>優先度(結合力、番号で管理されている)や結合の向きの詳細はP551。</p>
 <table>
@@ -480,20 +490,20 @@ padding: 45px;
 <h2 id="p64">P64</h2>
 <pre class="hljs"><code><div><span class="hljs-number">2</span>^<span class="hljs-number">3</span>^<span class="hljs-number">2</span>
 </div></code></pre>
-<p>これは右結合。
+<p>累乗は右結合。
 $$
 2^{3^2}=2^{(3^2)}
 $$
-数学と同じ。</p>
-<p>まずは関数が実行されてから演算子が実行される。なので</p>
+数学を思い出せばいい大体同じ。</p>
+<p>関数に関しては注意が必要。まず、関数が実行されてから演算子が実行される。なので</p>
 <pre class="hljs"><code><div>f n + 1
 </div></code></pre>
 <p>は</p>
 <pre class="hljs"><code><div>(f n) + 1
 </div></code></pre>
-<p>と実行されてしまうので関数は疑わしければかっこをつける。</p>
+<p>と実行されてしまうので <strong>関数は疑わしければかっこをつける。</strong></p>
 <h2 id="p65">P65</h2>
-<p>演算子は(+)などとすると関数となる。</p>
+<p>演算子は(+)のように(演算子)とすると、関数となる。</p>
 <pre class="hljs"><code><div><span class="hljs-title">x</span> = y + z
 <span class="hljs-title">x</span> = (+) y z
 </div></code></pre>
@@ -501,7 +511,8 @@ $$
 <pre class="hljs"><code><div><span class="hljs-title">x</span> = func y  z
 <span class="hljs-title">x</span> = y  'func' z
 </div></code></pre>
-<p>Do-it-youself operators。これは新しい演算子を作る機能。演算子に使える記号が決まってる。結構色んな記号が使える(ユニコードのやつ？)。教科書では<code>&amp;&amp;&amp;</code>なる演算子を作っている。さらに優先度や結合の向きを定義できる。</p>
+<p>Do-it-youself operators。これは新しい演算子を作る機能。演算子は記号(<code>!#$%&amp;*+./&lt;=&gt;?@\^|-~</code>
+)で作る。教科書では<code>&amp;&amp;&amp;</code>なる演算子を作っている。さらに優先度や結合の向きも定義できる。</p>
 <pre class="hljs"><code><div>(&amp;&amp;&amp;) :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span>
 <span class="hljs-title">x</span> &amp;&amp;&amp; y
     | x &gt; y     = y
@@ -510,10 +521,10 @@ $$
 <span class="hljs-title">a</span> = <span class="hljs-number">3</span> &amp;&amp;&amp; <span class="hljs-number">2</span> <span class="hljs-comment">-- a=2になる</span>
 </div></code></pre>
 <h2 id="4%E7%AB%A0">4章~~</h2>
-<p>プログラミングの書き方が一つのテーマ。haskellは関数が中心。例えば、3つの数字のなかで、真ん中の数字を返せという課題があった場合。2 2 4の場合はどうする？真ん中はない？それとも2を返す？不明確な問題設定は結構ある。これは社会に出ても同様(要件定義があいまい)。クライアントとホストで例を出し合うのも大事ってよく話すのが大事。特に、Haskellは型が特定できるのでやりやすい。</p>
+<p>プログラミングの書き方が一つのテーマ。haskellは関数が中心。例えば、3つの数字のなかで、真ん中の数字を返せという課題があった場合。2 2 4の場合はどうする？真ん中はない？それとも2を返す？不明確な問題設定は結構ある。これは社会に出ても同様(要件定義があいまい)。例を出し合うのも大事ってよく話すのが大事。特に、Haskellは型が特定できるのでやりやすい。</p>
 <h2 id="p70p71">P70~P71</h2>
 <p>ゴールとスタートの間にどんな関数があれば目的を達成できるか考える。</p>
-<p>例えば、整数 x、y、z の中央値を求めるタスクを与えられたとする。その場合、どんな関数があれば目的を達成できるだろうか。その解の一つとして、betwweenなる関数を作ることを考える。は真ん中の数を割り出すプログラム。</p>
+<p>例えば、整数 x、y、z の中央値を求めるタスクを与えられたとする。その場合、どんな関数があれば目的を達成できるだろうか。その解の一つとして、betweenなる関数を作ることを考える。betweenは真ん中の数を割り出すプログラム。</p>
 <pre class="hljs"><code><div><span class="hljs-comment">-- between関数を定義</span>
 <span class="hljs-title">between</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Bool</span>
 <span class="hljs-title">between</span> m n p = n &gt;= m &amp;&amp; n &lt;= p
@@ -701,7 +712,7 @@ $$
 <span class="hljs-title">addPair</span> (x,y) = x + y
 </div></code></pre>
 <p>といった形で関数側から使える。
-課題P103(5.1)、やりたいんだったら5.2もやっていいんですよ。</p>
+課題P103(5.1)、やりたいんだったら5.2。</p>
 <h2 id="%E3%81%9D%E3%81%AE%E4%BB%96">その他</h2>
 <div id="section1">
 <p>&quot;Haskellの少数型はfloatしかない&quot;についての、聞き間違えか心配だったので検証結果。</p>
