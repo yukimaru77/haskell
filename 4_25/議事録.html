@@ -397,7 +397,7 @@ padding: 45px;
 <h2 id="%E8%AA%B2%E9%A1%8C%E4%B8%80%E8%A6%A7">課題一覧</h2>
 <ul>
 <li>3.20(P59)</li>
-<li>4.1(P71)</li>
+<li>4.1(P71)(図は省いていい。利点と欠点は書いてください。)</li>
 <li>4.9(P78)</li>
 <li>4.11、4.12(P80)</li>
 <li>4.17、4.18(P84)</li>
@@ -524,7 +524,7 @@ $$
 <p>プログラミングの書き方が一つのテーマ。haskellは関数が中心。例えば、3つの数字のなかで、真ん中の数字を返せという課題があった場合。2 2 4の場合はどうする？真ん中はない？それとも2を返す？不明確な問題設定は結構ある。これは社会に出ても同様(要件定義があいまい)。例を出し合うのも大事ってよく話すのが大事。特に、Haskellは型が特定できるのでやりやすい。</p>
 <h2 id="p70p71">P70~P71</h2>
 <p>ゴールとスタートの間にどんな関数があれば目的を達成できるか考える。</p>
-<p>例えば、整数 x、y、z の中央値を求めるタスクを与えられたとする。その場合、どんな関数があれば目的を達成できるだろうか。その解の一つとして、betweenなる関数を作ることを考える。betweenは真ん中の数を割り出すプログラム。</p>
+<p>例えば、整数 x、y、z の中央値を求めるタスクを与えられたとする。その場合、どんな関数があれば目的を達成できるだろうか。その解の一つとして、betweenなる関数を作ることを考える。betweenはm n pを引数にとり、$m\leqq n \leqq p$ならTrueを返す関数。</p>
 <pre class="hljs"><code><div><span class="hljs-comment">-- between関数を定義</span>
 <span class="hljs-title">between</span> :: <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Integer</span> -&gt; <span class="hljs-type">Bool</span>
 <span class="hljs-title">between</span> m n p = n &gt;= m &amp;&amp; n &lt;= p
