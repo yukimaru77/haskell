@@ -6,7 +6,11 @@ maxThree x y z
 
 -- 1つ目の定義はmaxFour1、2つ目の定義はmaxFour2、3つ目の定義はmaxFour3とする。
 maxFour1 :: Integer -> Integer -> Integer -> Integer -> Integer
-maxFour1 a b c d = maxThree (maxThree a b c) c d
+maxFour1 a b c d
+  | a >= b && a >= c && a >= d = a
+  | b >= c && b >= d           = b
+  | c >= d                  = c
+  | otherwise                  = d
 
 maxFour2 :: Integer -> Integer -> Integer -> Integer -> Integer
 maxFour2 a b c d = max (max a b) (max c d)

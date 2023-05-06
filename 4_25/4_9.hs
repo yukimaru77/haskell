@@ -1,21 +1,22 @@
 
 -- whereありバージョン
-    
+
 maxThreeOccurs :: Int -> Int -> Int -> (Int,Int)
-maxThreeOccurs x y z = (maxVal, count)
+maxThreeOccurs x y z = (val, count)
     where
-        maxVal = maxThree x y z
-        count = countMax maxVal x y z
+        val = maxThree x y z
+        count = countVal val x y z
         maxThree :: Int -> Int -> Int -> Int
         maxThree x y z
             | x >= y && x >= z = x
             | y >= z = y
             | otherwise = z
-        countMax :: Int -> Int -> Int -> Int -> Int
-        countMax maxVal x y z
-            | x == maxVal && y == maxVal && z == maxVal = 3
-            | x == maxVal && y == maxVal || x == maxVal && z == maxVal || y == maxVal && z == maxVal = 2
+        countVal :: Int -> Int -> Int -> Int -> Int
+        countVal val x y z
+            | x == val && y == val && z == val = 3
+            | x == val && y == val || x == val && z == val || y == val && z == val = 2
             | otherwise = 1
+
 
 main :: IO ()
 main = do
